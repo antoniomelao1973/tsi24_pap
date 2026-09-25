@@ -1,14 +1,181 @@
 <!DOCTYPE html>
-<html lang="pt-pt">
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Turma TSI24</title>
+    <meta name="description" content="Byte. As notícias de tecnologia que importam, todos os dias.">
+    <title>Byte. Notícias que ligam o futuro.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+        :root {
+            --ink: #171717;
+            --muted: #737373;
+            --line: #e8e8e8;
+            --paper: #fbfbfa;
+            --white: #fff;
+            --lime: #d8f04b;
+            --blue: #d8e7ff;
+            --orange: #ff855a;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { margin: 0; color: var(--ink); background: var(--paper); font-family: 'DM Sans', sans-serif; }
+        a { color: inherit; text-decoration: none; }
+        button, input { font: inherit; }
+        .wrap { max-width: 1220px; margin: 0 auto; padding: 0 34px; }
+
+        header { border-bottom: 1px solid var(--line); background: rgba(251,251,250,.92); backdrop-filter: blur(14px); position: sticky; top: 0; z-index: 5; }
+        .nav { height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+        .brand { font: 700 28px 'Space Grotesk', sans-serif; letter-spacing: -1.5px; }
+        .brand span { color: #9ab51b; }
+        .links { display: flex; align-items: center; gap: 30px; font-size: 13px; font-weight: 600; }
+        .links a { color: #575757; transition: color .2s; }
+        .links a:hover, .links a.active { color: var(--ink); }
+        .nav-actions { display: flex; align-items: center; gap: 16px; }
+        .search { border: 0; background: transparent; cursor: pointer; padding: 8px; display: flex; }
+        .search svg { width: 19px; height: 19px; }
+        .subscribe { background: var(--ink); color: white; padding: 12px 18px; border-radius: 24px; font-size: 12px; font-weight: 700; transition: transform .2s, background .2s; }
+        .subscribe:hover { background: #444; transform: translateY(-2px); }
+        .menu { display: none; border: 0; background: none; padding: 8px; }
+
+        .hero { padding: 72px 0 82px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 72px; align-items: center; }
+        .eyebrow, .section-kicker { text-transform: uppercase; letter-spacing: 1.8px; font-size: 11px; font-weight: 700; color: #779100; }
+        h1, h2, h3, p { margin-top: 0; }
+        h1 { font: 600 clamp(48px, 6vw, 84px)/.98 'Space Grotesk', sans-serif; letter-spacing: -4px; max-width: 690px; margin: 18px 0 26px; }
+        .hero-copy { color: var(--muted); font-size: 17px; line-height: 1.55; max-width: 475px; margin-bottom: 30px; }
+        .read-link { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; }
+        .read-link span { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--ink); border-radius: 50%; transition: background .2s, color .2s; }
+        .read-link:hover span { background: var(--ink); color: white; }
+        .hero-visual { min-height: 430px; position: relative; background: var(--blue); overflow: hidden; border-radius: 2px; }
+        .hero-visual img { width: 100%; height: 100%; min-height: 430px; display: block; object-fit: cover; mix-blend-mode: multiply; filter: saturate(.8); }
+        .visual-label { position: absolute; left: 22px; bottom: 22px; background: var(--white); padding: 10px 13px; font-size: 11px; font-weight: 700; letter-spacing: .5px; }
+
+        .rule { border-top: 1px solid var(--line); }
+        .section-head { padding: 30px 0 24px; display: flex; align-items: baseline; justify-content: space-between; }
+        .section-head h2 { font: 600 27px 'Space Grotesk', sans-serif; letter-spacing: -1px; margin: 0; }
+        .section-head a { color: var(--muted); font-size: 12px; font-weight: 600; }
+        .news-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 22px; padding-bottom: 86px; }
+        .card { border-top: 1px solid var(--ink); padding-top: 16px; }
+        .card-image { height: 220px; overflow: hidden; margin-bottom: 17px; background: #eee; }
+        .card-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s; }
+        .card:hover img { transform: scale(1.04); }
+        .card:first-child .card-image { height: 310px; }
+        .tag { font-size: 10px; text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700; color: #8ba21c; }
+        .card h3 { font: 600 22px/1.12 'Space Grotesk', sans-serif; letter-spacing: -.8px; margin: 9px 0 12px; }
+        .card:first-child h3 { font-size: 28px; }
+        .card p { color: var(--muted); font-size: 13px; line-height: 1.5; margin-bottom: 15px; }
+        .meta { color: #a0a0a0; font-size: 11px; }
+
+        .briefing { background: var(--lime); padding: 48px 0; }
+        .briefing-inner { display: flex; justify-content: space-between; align-items: center; gap: 30px; }
+        .briefing h2 { font: 600 33px 'Space Grotesk', sans-serif; letter-spacing: -1.4px; margin: 0 0 8px; }
+        .briefing p { margin: 0; font-size: 14px; }
+        .email-form { display: flex; background: white; padding: 5px; width: min(100%, 370px); }
+        .email-form input { border: 0; outline: 0; padding: 12px; min-width: 0; flex: 1; font-size: 12px; }
+        .email-form button { border: 0; background: var(--ink); color: white; padding: 0 17px; font-size: 12px; font-weight: 700; cursor: pointer; }
+
+        footer { padding: 32px 0 45px; }
+        .footer-row { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+        .footer-row p, .footer-links { color: var(--muted); font-size: 12px; margin: 0; }
+        .footer-links { display: flex; gap: 22px; }
+        .footer-links a:hover { color: var(--ink); }
+
+        @media (max-width: 760px) {
+            .wrap { padding: 0 20px; }
+            .nav { height: 66px; }
+            .links, .nav-actions .subscribe { display: none; }
+            .menu { display: block; }
+            .hero { padding: 50px 0 54px; display: block; }
+            h1 { letter-spacing: -2.5px; margin-top: 14px; }
+            .hero-copy { font-size: 15px; }
+            .hero-visual { margin-top: 42px; min-height: 320px; }
+            .hero-visual img { min-height: 320px; }
+            .news-grid { grid-template-columns: 1fr; gap: 46px; padding-bottom: 58px; }
+            .card-image, .card:first-child .card-image { height: 240px; }
+            .card:first-child h3 { font-size: 25px; }
+            .briefing-inner { display: block; }
+            .email-form { margin-top: 24px; width: 100%; }
+            .footer-row { display: block; }
+            .footer-links { margin-top: 20px; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Turma TSI24</h1>
-    <p></p>
-    <p></p>
-    <p>Isto é um teste</p>
+    <header>
+        <div class="wrap nav">
+            <a class="brand" href="#top" aria-label="Byte início">byte<span>.</span></a>
+            <nav class="links" aria-label="Navegação principal">
+                <a class="active" href="#top">Início</a>
+                <a href="#noticias">Notícias</a>
+                <a href="#noticias">Análises</a>
+                <a href="#noticias">Ciência</a>
+                <a href="#noticias">Cultura</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="search" aria-label="Pesquisar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 5 5"/></svg>
+                </button>
+                <a class="subscribe" href="#newsletter">Receber a newsletter</a>
+                <button class="menu" aria-label="Abrir menu"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+            </div>
+        </div>
+    </header>
+
+    <main id="top">
+        <section class="wrap hero">
+            <div>
+                <div class="eyebrow">A tecnologia em movimento</div>
+                <h1>O futuro chega mais depressa do que pensamos.</h1>
+                <p class="hero-copy">Ideias, pessoas e produtos que estão a transformar a forma como vivemos. Informação essencial, sem ruído.</p>
+                <a class="read-link" href="#noticias">Explorar as histórias <span>→</span></a>
+            </div>
+            <div class="hero-visual">
+                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85" alt="Placa de circuito eletrónico com componentes brilhantes">
+                <div class="visual-label">HISTÓRIA DE CAPA · 06 MIN</div>
+            </div>
+        </section>
+
+        <section id="noticias" class="wrap rule">
+            <div class="section-head">
+                <h2>Agora em destaque</h2>
+                <a href="#noticias">Ver todas as notícias →</a>
+            </div>
+            <div class="news-grid">
+                <article class="card">
+                    <a href="#noticias"><div class="card-image"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=85" alt="Pessoa a interagir com uma inteligência artificial"></div>
+                    <div class="tag">Inteligência artificial</div><h3>As máquinas já sabem muito. A próxima pergunta é: o que vão criar?</h3><p>Do laboratório para o quotidiano, a nova geração de modelos está a mudar o significado de trabalhar com tecnologia.</p><div class="meta">Marta Silva · há 2 horas</div></a>
+                </article>
+                <article class="card">
+                    <a href="#noticias"><div class="card-image"><img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=85" alt="Servidor com luzes azuis"></div>
+                    <div class="tag">Infraestrutura</div><h3>A internet está a ficar mais próxima de nós</h3><p>Novos centros de dados estão a redesenhar o mapa digital europeu.</p><div class="meta">Rui Gomes · há 4 horas</div></a>
+                </article>
+                <article class="card">
+                    <a href="#noticias"><div class="card-image"><img src="https://images.unsplash.com/photo-1618477388954-7852f32655ec?auto=format&fit=crop&w=900&q=85" alt="Código num monitor"></div>
+                    <div class="tag">Desenvolvimento</div><h3>O código aberto voltou a ser o lugar mais interessante</h3><p>As ferramentas que estão a dar superpoderes a equipas pequenas.</p><div class="meta">Inês Costa · ontem</div></a>
+                </article>
+            </div>
+        </section>
+
+        <section id="newsletter" class="briefing">
+            <div class="wrap briefing-inner">
+                <div><h2>Uma boa leitura por dia.</h2><p>O melhor da tecnologia, diretamente na sua caixa de entrada.</p></div>
+                <form class="email-form"><input type="email" placeholder="O seu email" aria-label="O seu email" required><button type="submit">Subscrever</button></form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="wrap">
+        <div class="footer-row"><p>© 2026 Byte. Feito para quem quer entender o amanhã.</p><div class="footer-links"><a href="#top">Sobre</a><a href="#top">Contactos</a><a href="#top">Instagram</a></div></div>
+    </footer>
+    <script>
+        document.querySelector('.email-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const button = this.querySelector('button');
+            button.textContent = 'Feito ✓';
+            button.disabled = true;
+        });
+    </script>
 </body>
 </html>
